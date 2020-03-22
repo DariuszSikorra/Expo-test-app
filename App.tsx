@@ -8,7 +8,7 @@ export default function App() {
   });
 
   const onSubmit = data => {
-    console.log(errors);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -16,10 +16,7 @@ export default function App() {
       { name: "email" },
       {
         required: "Email address is required",
-        pattern: {
-          value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-          message: "It's not an email"
-        }
+        pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       }
     );
 
@@ -27,12 +24,8 @@ export default function App() {
       { name: "password" },
       {
         required: "Password is required",
-        pattern: {
-          // value: /^(?=.*\d)[A-Za-z\d]{5,}$/,
-          value: /^(?=.*\d)[A-Za-z\d].*$/,
-          message: "Password require at least 1 digit."
-        },
-        minLength: { value: 6, message: "Password is to short" }
+        pattern: /^(?=.*\d)[A-Za-z\d].*$/,
+        minLength: 6
       }
     );
   }, [register]);
@@ -49,7 +42,7 @@ export default function App() {
           setValue("email", text);
         }}
       />
-      {errors.email && errors.email.types.minLength && (
+      {errors.email && errors.email.types.pattern && (
         <Text>Email in not valid</Text>
       )}
 
@@ -62,7 +55,7 @@ export default function App() {
         placeholder="password"
         textContentType="password"
         onChangeText={text => {
-          setValue("password", text, true);
+          setValue("password", text);
         }}
       />
       {/* {errors.password && <Text>{errors.password.message}</Text>} */}
